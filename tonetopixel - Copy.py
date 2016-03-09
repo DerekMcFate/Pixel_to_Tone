@@ -1,16 +1,19 @@
 #Select Image to transform
 image = makePicture(pickAFile())
 
-#declarations
-note = 0
-hold = 0
-speed = 50
-
 #Retrive data from image
 width = getWidth(image)
 height = getHeight(image)
 canvas = makeEmptyPicture(width,height)
+use = makeEmptyPicture(1,1)
 #setAllPixelsToAColor(canvas, black)
+
+#declarations
+note = 0
+hold = getPixel(use, 0, 0)
+setColor(hold, makeColor(255,255,255))
+speed = 100
+
 
 for x in range(0,width):
   for y in range(0,height):
@@ -21,14 +24,15 @@ for x in range(0,width):
      myGreen = getGreen(pixel)
      myBlue = getBlue(pixel)
      
-     #newColor =  makeColor(myRed,myGreen,myBlue)
+     holdColor = getColor(hold)   
+     
      setColor(newPixel,color)
      print y
      repaint(canvas)
      note = ((myRed + myGreen + myBlue)/6)
      if(note < 127):
-       if (note - hold > 15):
-         playNote(note,speed,64)
-     hold = note
+       if(color != holdColor):
+          playNote(note,speed,64)
+     setColor(hold,holdColor)
     
      
