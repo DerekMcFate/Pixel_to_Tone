@@ -3,7 +3,8 @@ image = makePicture(pickAFile())
 
 #declarations
 note = 0
-speed = 100
+hold = 0
+speed = 50
 
 #Retrive data from image
 width = getWidth(image)
@@ -24,7 +25,10 @@ for x in range(0,width):
      setColor(newPixel,color)
      print y
      repaint(canvas)
-     note = ((myRed + myGreen + myBlue)/5)
-     playNote(note,speed,64)
+     note = ((myRed + myGreen + myBlue)/6)
+     if(note < 127):
+       if (note - hold > 15):
+         playNote(note,speed,64)
+     hold = note
     
      
