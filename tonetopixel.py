@@ -1,33 +1,36 @@
 #Select Image to transform
 image = makePicture(pickAFile())
 
-#list declarations
-note=[]
-colorlist = []
-
-#Retrive data from image
+redList = []
+greenList = []
+blueList = []
+noteList = []
 width = getWidth(image)
 height = getHeight(image)
-for x in range(0,width):
-  for y in range(0,height):
-     pixel = getPixel(image, x, y)    
-     color = getColor(pixel) 
-      
-     myRed = getRed(pixel)
-     myGreen = getGreen(pixel)
-     myBlue = getBlue(pixel)
-     
-     note.append((myRed + myGreen + myBlue)/5)
-     colorlist.append(color)
-     
-end=len(note)-1
-speed = 1000
-
-canvas = makeEmptyPicture(width,height)
-
-#Draw and play the picture
-for i in range(1,end):
-  if(note[i]-note[i-1]>5):
-    playNote(note[i],speed,64)
-    setAllPixelsToAColor(canvas, colorlist[i])
-    repaint(canvas)
+blank = makeEmptyPicture(width, height)
+a = -1
+for y in range(0,height):
+  counter = 0
+  for x in range(0,width):
+    pixel = getPixel(image, x, y)
+    newPixel = getPixel(blank, x, y)
+    r = getRed(pixel)
+    g = getGreen(pixel)
+    b = getBlue(pixel)
+    redList.append(r)
+    greenList.append(g)
+    blueList.append(b)
+    a = a + 1
+    redValue = redList[a]
+    greenValue = greenList[a]
+    blueValue = blueList[a]
+    noteList.append((r+g+b)/5)
+    if(counter == 100):
+      if(a > -1):
+        playNote(noteList[a], 1, 64)
+        counter = -1
+    counter += 1
+    setRed(newPixel, redValue)
+    setGreen(newPixel, greenValue)
+    setBlue(newPixel, blueValue)
+    repaint(blank)
