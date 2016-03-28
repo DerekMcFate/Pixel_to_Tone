@@ -1,0 +1,36 @@
+#Select Image to transform
+image = makePicture(pickAFile())
+
+#declarations
+note = 0
+hold = 0
+speed = 500
+
+#Retrive data from image
+width = getWidth(image)
+height = getHeight(image)
+canvas = makeEmptyPicture(width,height)
+
+#setAllPixelsToAColor(canvas, black)
+i=0
+for y in range(0,height):
+  for x in range(0,width):
+     pixel = getPixel(image, x, y*25)
+     newPixel = getPixel(canvas, x, y*25)
+     color = getColor(pixel)
+     myRed = getRed(pixel)
+     myGreen = getGreen(pixel)
+     myBlue = getBlue(pixel)
+     
+     #newColor =  makeColor(myRed,myGreen,myBlue)
+     setColor(newPixel,color)
+
+     repaint(canvas)
+    
+     note = ((myRed + myGreen + myBlue)/5)
+     if(note-hold>2):
+       playNote(note,speed,64)
+       addOvalFilled(canvas,x,height-note,10,10,color)
+     hold = note
+  setAllPixelsToAColor(canvas,white)
+  
